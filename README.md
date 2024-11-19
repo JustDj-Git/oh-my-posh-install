@@ -18,7 +18,7 @@ This script automates the installation and setup of [Oh My Posh](https://ohmypos
 
 ### 🖱️ With nice menu
 
-1.   Open PowerShell (not CMD). Right-click on the Windows start menu and find PowerShell (or Terminal), or `press Win` + S and type Powershell.
+1.   Open PowerShell (not CMD). Right-click on the Windows start menu and find PowerShell (or Terminal), or press `Win + S` and type Powershell.
 2.   Copy and paste the code below and press enter
 ```powershell
 irm omp.scripts.wiki | iex; run
