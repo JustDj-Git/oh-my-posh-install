@@ -25,7 +25,7 @@ irm omp.scripts.wiki | iex; run
 ```
 or direct link
 ```powershell
-irm https://raw.githubusercontent.com/JustDj-Git/PSH/refs/heads/main/Scripts/oh-my-posh-OneClick/oh-my-posh-OneClick.ps1 | iex; run
+irm https://raw.githubusercontent.com/JustDj-Git/oh-my-posh-install/refs/heads/main/oh-my-posh-install.ps1 | iex; run
 ```
 3.   Menu will appear!
 ---
