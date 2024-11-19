@@ -156,7 +156,7 @@ function run {
 		[switch]$icons
 	)
 
-		$savePath = "$env:TEMP\oh-my-posh_OneClick"
+		$savePath = "$env:TEMP\oh-my-posh-OneClick"
 
 		if (-not (Test-Path $savePath)) {
 			New-Item -Path $savePath -ItemType Directory -Force | Out-Null
@@ -387,10 +387,10 @@ function run {
 		Shout 'Configuring WindowsTerminal'; Configure-WindowsTerminal
 		Shout 'Recreating console links for a new font (only for English lang)'; NewLinks
 		$timer.Stop()
-		$timeRound = [Math]::Round(($timer.Elapsed.TotalSeconds), 2)
+		$timeRound = [Math]::Round(($timer.Elapsed.TotalSeconds), 1)
 		$timer.Reset()
 		Shout '------------------------------------' -color 'Cyan'
-		Shout "   The script is completed in $timeRound! Enjoy!  " -color 'Blue'
+		Shout "   The script completed in $timeRound seconds! Enjoy!  " -color 'Blue'
 		Shout '------------------------------------' -color 'Cyan'
 		pause
 		return
@@ -536,6 +536,7 @@ function run {
 			}
 			'R' {
 				ParametersPreparing
+				return
 			}
 			'Q' {
 				return
