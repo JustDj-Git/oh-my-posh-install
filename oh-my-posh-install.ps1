@@ -271,7 +271,7 @@ function run {
 						$newContent = $jsonContent -replace '"defaults": \{\},', `
 						'"defaults": {
 									"font": {
-										"face": "FiraCode Nerd Font"
+										"face": "FiraMono Nerd Font"
 									} 
 								},' 
 						Set-Content $file_path $newContent
@@ -376,13 +376,15 @@ function run {
 		Shout 'Configuring PSGallery repository'; $job = Start-Job -ScriptBlock { Set-PSRepository -Name PSGallery -InstallationPolicy Trusted | Out-Null }; Wait-Job -Job $job | Out-Null; Remove-Job -Job $job
 		Shout 'Installing the latest PSReadline powershell module'; $job = Start-Job -ScriptBlock { Install-Module -Name psreadline -Scope CurrentUser -Force -ErrorAction SilentlyContinue | Out-Null }; Wait-Job -Job $job | Out-Null; Remove-Job -Job $job
 		if ($icons) { Shout 'Installing Terminal-Icons module'; $job = Start-Job -ScriptBlock { Install-Module -Name Terminal-Icons -Confirm:$False -Scope CurrentUser -Repository PSGallery | Out-Null }; Wait-Job -Job $job | Out-Null; Remove-Job -Job $job }
-		Set-ItemProperty -Path "HKCU:\Console" -Name "FaceName" -Value "FiraCode Nerd Font Mono" -ErrorAction SilentlyContinue | Out-Null
+		Set-ItemProperty -Path "HKCU:\Console" -Name "FaceName" -Value "FiraCode Nerd Font" -ErrorAction SilentlyContinue | Out-Null
+		Set-ItemProperty -Path "HKCU:\Console\%SystemRoot%_System32_WindowsPowerShell_v1.0_powershell.exe" -Name "FaceName" -Value "FiraCode Nerd Font" -ErrorAction SilentlyContinue | Out-Null
+		Set-ItemProperty -Path "HKCU:\Console\%SystemRoot%_system32_cmd.exe" -Name "FaceName" -Value "FiraCode Nerd Font" -ErrorAction SilentlyContinue | Out-Null
 		if ($ps7) { Shout 'Installing the latest powershell 7'; Install-Pwsh }
 		Shout 'Installing oh-my-posh'; Install-oh
 		if ($nano) { Shout 'Installing nano for console'; Install-Nano }
 		if ($cmd) { Shout 'Installing clink for cmd (oh-my-cmd)'; Install-Clink }
 		if ($ps_profile) { Shout "Creating profiles for PS5/7"; Write-Profile -ps_ver '7' -oh_theme $oh_theme; Write-Profile -ps_ver '5' -oh_theme $oh_theme}
-		Shout 'Installing oh-my-posh fonts'; oh-my-posh font install FiraCode | out-null
+		Shout 'Installing oh-my-posh fonts'; oh-my-posh font install FiraCode | out-null; oh-my-posh font install FiraMono | out-null
 		if ($terminal) { Shout 'Installing WindowsTerminal'; Install-WindowsTerminal }
 		Shout 'Configuring WindowsTerminal'; Configure-WindowsTerminal
 		Shout 'Recreating console links for a new font (only for English lang)'; NewLinks
