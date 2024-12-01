@@ -307,22 +307,20 @@ function run {
 			if (Test-Path $profile_path) {
 				$top_line = ''
 				$profile_content = Get-Content -Path $profile_path -Raw
-				if ($profile_content -match "oh-my-posh") {
-					$profile_content = $profile_content -replace '(?m)^oh-my-posh init.*$\r?\n?',''
-					$profile_content = $profile_content -replace '(?m)^\$oh_my_theme.*$\r?\n?',''
+				$profile_content = $profile_content -replace '(?m)^oh-my-posh init.*$\r?\n?',''
+				$profile_content = $profile_content -replace '(?m)^\$oh_my_theme.*$\r?\n?',''
 
-					if ($row){
-						$profile_content = $profile_content -replace '(?m)^Import-Module Terminal-Icons.*$\r?\n?',''
-						$top_line += $row
-						$top_line += "`n"
-					}
-					
-					$top_line += "`$oh_my_theme=`"$oh_theme`""
+				if ($row){
+					$profile_content = $profile_content -replace '(?m)^Import-Module Terminal-Icons.*$\r?\n?',''
+					$top_line += $row
 					$top_line += "`n"
-					$top_line += "oh-my-posh init $ps_com --config `"$env:LOCALAPPDATA\Programs\oh-my-posh\themes\`$oh_my_theme.omp.json`" | Invoke-Expression"
-					$profile_content = $top_line + $profile_content
-					Set-Content -Path $profile_path -Value $profile_content -Encoding UTF8 -Force
 				}
+					
+				$top_line += "`$oh_my_theme=`"$oh_theme`""
+				$top_line += "`n"
+				$top_line += "oh-my-posh init $ps_com --config `"$env:LOCALAPPDATA\Programs\oh-my-posh\themes\`$oh_my_theme.omp.json`" | Invoke-Expression"
+				$profile_content = $top_line + $profile_content
+				Set-Content -Path $profile_path -Value $profile_content -Encoding UTF8 -Force
 			} else {
 				$scriptContent = @(
 					"$row"
