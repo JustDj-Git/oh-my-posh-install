@@ -169,7 +169,7 @@ function run {
 
 			Download -releaseZipUrl $releaseZipUrl -savePath $savePath -fileName $fileName
 			
-			Start-Process "$savePath\$fileName" -ArgumentList "/CURRENTUSER /VERYSILENT" -Wait | out-null
+			Start-Process "$savePath\$fileName" -ArgumentList "/quiet" -Wait | out-null
 		
 			$machinePath = [System.Environment]::GetEnvironmentVariable("PATH", [System.EnvironmentVariableTarget]::Machine)
 			$userPath = [System.Environment]::GetEnvironmentVariable("PATH", [System.EnvironmentVariableTarget]::User)
@@ -191,14 +191,10 @@ function run {
 			Start-Process "$savePath\$fileName" -ArgumentList "/quiet /passive ADD_EXPLORER_CONTEXT_MENU_OPENPOWERSHELL=1 ENABLE_PSREMOTING=1 REGISTER_MANIFEST=1 USE_MU=1 ENABLE_MU=1" -Wait
 			
 			$sourcePath = "$mydocuments\WindowsPowerShell\Modules"
-			$destinationPath = "$mydocuments\PowerShell\Modules"			
+			$destinationPath = "$mydocuments\PowerShell\Modules"
 			
-			if (-not (Test-Path $destinationPath)) {
-				New-Item -Path $destinationPath -ItemType Directory -Force | Out-Null
-			}
-
-			Copy-Item -Path "$sourcePath\PSReadLine" -Destination $destinationPath -Recurse
-			Copy-Item -Path "$sourcePath\Terminal-Icons" -Destination $destinationPath -Recurse
+			Copy-Item -Path "$sourcePath\PSReadLine" -Destination $destinationPath -Recurse -Force
+			Copy-Item -Path "$sourcePath\Terminal-Icons" -Destination $destinationPath -Recurse -Force
 		}
 
 		function Install-Clink {
