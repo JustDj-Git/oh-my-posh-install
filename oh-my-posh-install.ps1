@@ -156,6 +156,7 @@ function run {
 		[switch]$icons
 	)
 
+		$mydocuments = [environment]::getfolderpath("mydocuments")
 		$savePath = "$env:TEMP\oh-my-posh-OneClick"
 
 		if (-not (Test-Path $savePath)) {
@@ -163,7 +164,7 @@ function run {
 		}
 
 		function Install-oh {
-			$releaseZipUrl = GitHubParce -username "JanDeDobbeleer" -repo "oh-my-posh" -zip_name "install-amd64.exe"
+			$releaseZipUrl = GitHubParce -username "JanDeDobbeleer" -repo "oh-my-posh" -zip_name "install-x64.msi"
 			$fileName = $releaseZipUrl.Split('/')[-1]
 
 			Download -releaseZipUrl $releaseZipUrl -savePath $savePath -fileName $fileName
@@ -188,10 +189,10 @@ function run {
 			Download -releaseZipUrl $releaseZipUrl -savePath $savePath -fileName $fileName
 
 			Start-Process "$savePath\$fileName" -ArgumentList "/quiet /passive ADD_EXPLORER_CONTEXT_MENU_OPENPOWERSHELL=1 ENABLE_PSREMOTING=1 REGISTER_MANIFEST=1 USE_MU=1 ENABLE_MU=1" -Wait
-
-			$sourcePath = "$env:USERPROFILE\Documents\WindowsPowerShell\Modules"
-			$destinationPath = "$env:USERPROFILE\Documents\PowerShell\Modules"
-
+			
+			$sourcePath = "$mydocuments\WindowsPowerShell\Modules"
+			$destinationPath = "$mydocuments\PowerShell\Modules"			
+			
 			if (-not (Test-Path $destinationPath)) {
 				New-Item -Path $destinationPath -ItemType Directory -Force | Out-Null
 			}
@@ -293,8 +294,6 @@ function run {
 				$oh_theme
 			)
 
-			$mydocuments = [environment]::getfolderpath("mydocuments")
-
 			if ($icons){
 				$row = 'Import-Module Terminal-Icons'
 			}
@@ -370,7 +369,7 @@ function run {
 
 		# =======================  Main Script Body =======================
 		$timer = [Diagnostics.Stopwatch]::StartNew()
-		cls
+		Clear-Host
 		Shout "Script is starting" -color 'Green'
 		Shout 'Installing NuGet packageProvider'; $job = Start-Job -ScriptBlock { Install-PackageProvider -Name NuGet -Confirm:$False -Scope CurrentUser -Force | Out-Null }; Wait-Job -Job $job | Out-Null; Remove-Job -Job $job
 		Shout 'Configuring PSGallery repository'; $job = Start-Job -ScriptBlock { Set-PSRepository -Name PSGallery -InstallationPolicy Trusted | Out-Null }; Wait-Job -Job $job | Out-Null; Remove-Job -Job $job
@@ -453,7 +452,7 @@ function run {
 
 	# Main menu loop
 	do {
-		cls
+		Clear-Host
 		Write-Host '---------------------------------------'
 		Write-Host '    Oh-my-posh OneClick installer' -ForegroundColor Yellow
 		Write-Host '---------------------------------------'
@@ -478,7 +477,7 @@ function run {
 
 		switch ($option) {
 			{($_ -eq 'T') -or ($_ -eq 0)} {
-				cls
+				Clear-Host
 				Write-Host '---------------'
 				Write-Host " Set Oh-my-posh theme (current: " -NoNewline
 				Write-Host "$oh_theme" -ForegroundColor Cyan -NoNewline
